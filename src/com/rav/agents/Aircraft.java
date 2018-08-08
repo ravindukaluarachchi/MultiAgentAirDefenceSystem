@@ -14,7 +14,7 @@ import java.util.logging.Logger;
  *
  * @author ravindu kaluarachchi
  */
-public class Aircraft {
+public class Aircraft implements Airborne{
 
     private Position position;
     private Position destination;

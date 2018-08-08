@@ -6,6 +6,7 @@
 
 package com.rav.environment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,7 +14,7 @@ import java.util.List;
  * @author ravindu kaluarachchi
  */
 public class Sky {
-    private static List<Airborne> objects;
+    private static List<Airborne> objects = new ArrayList<>();
 
     public static List<Airborne> getObjects() {
         return objects;

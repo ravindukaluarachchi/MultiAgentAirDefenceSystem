@@ -11,6 +11,6 @@ import com.rav.util.Position;
  *
  * @author ravindu kaluarachchi
  */
-public interface  Airborne {
-
+public interface Airborne {
+    public Position getPosition();
 }

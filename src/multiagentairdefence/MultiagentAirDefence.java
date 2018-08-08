@@ -10,6 +10,7 @@ import com.rav.agents.AntiAircraftAgent;
 import com.rav.agents.PowerGridAgent;
 import com.rav.agents.RadarAgent;
 import com.rav.agents.SirenAgent;
+import com.rav.environment.Sky;
 import com.rav.util.Position;
 import madkit.kernel.Madkit;
 
@@ -24,16 +25,17 @@ public class MultiagentAirDefence {
      */
     public static void main(String[] args) {
         Aircraft a = new Aircraft();
-        a.setPosition(new Position(100, 100));
-        a.setDestination(new Position(0, 0));
+        a.setPosition(new Position(0, 0));
+        a.setDestination(new Position(1000, 1000));
         a.setSpeed(500);
+        Sky.getObjects().add(a);
         a.fly();
         System.out.println("put a on sky");
         args = new String[]{"--launchAgents",
               RadarAgent.class.getName() + ",false,1;"
             + SirenAgent.class.getName() + ",false,1;"
             +PowerGridAgent.class.getName() + ",false,1;"};
-        //Madkit.main(args);
+        Madkit.main(args);
     }
 
 }

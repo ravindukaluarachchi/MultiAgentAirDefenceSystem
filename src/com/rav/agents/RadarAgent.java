@@ -5,7 +5,10 @@
  */
 package com.rav.agents;
 
+import com.rav.environment.Airborne;
+import com.rav.environment.Sky;
 import com.rav.util.Global;
+import com.rav.util.Position;
 import madkit.kernel.Agent;
 import madkit.kernel.Message;
 import madkit.message.StringMessage;
@@ -16,6 +19,14 @@ import madkit.message.StringMessage;
  */
 public class RadarAgent extends Agent {
 
+    private Position position;
+    private int range = 300;
+    private int alertCount;
+
+    public RadarAgent() {
+        position = new Position(500, 500);
+    }
+
     @Override
     protected void activate() {
         createGroupIfAbsent(Global.COMMUNITY, Global.GROUP);
@@ -24,12 +35,19 @@ public class RadarAgent extends Agent {
 
     @Override
     protected void live() {
-        Message m = new StringMessage("ABCD");
-        broadcastMessage(Global.COMMUNITY, Global.GROUP, Global.ROLE, m);
-        getLogger().info("message sent");
-        pause(15000);
-         m = new StringMessage("EFGH");
-        broadcastMessage(Global.COMMUNITY, Global.GROUP, Global.ROLE, m);
+        while (true) {
+            alertCount = 0;
+            for (Airborne object : Sky.getObjects()) {
+                if (object.getPosition().inRange(position, range)) {
+                    alertCount++;
+                }
+            }
+            if (alertCount > 0) {
+                Message m = new StringMessage("alert-on");
+                broadcastMessage(Global.COMMUNITY, Global.GROUP, Global.ROLE, m);                
+                pause(1000);                                
+            }
+        }
     }
 
 }
