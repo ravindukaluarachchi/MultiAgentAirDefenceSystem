@@ -9,17 +9,18 @@ package com.rav.agents;
 import com.rav.util.Global;
 import madkit.kernel.Agent;
 import madkit.kernel.Message;
+import madkit.message.StringMessage;
 
 /**
  *
  * @author ravindu kaluarachchi
  */
 public class PowerGridAgent extends Agent{
-
+private boolean onAlert = false;
     @Override
     protected void activate() {
         createGroupIfAbsent(Global.COMMUNITY, Global.GROUP);
-        requestRole(Global.COMMUNITY, Global.GROUP, Global.ROLE);
+        requestRole(Global.COMMUNITY, Global.GROUP, Global.ROLE_DEFENCE);
     }
 
     @Override
@@ -27,16 +28,21 @@ public class PowerGridAgent extends Agent{
 
         //waitNextMessage();
         while (true) {
-            Message m;
-            while ((m = nextMessage()) == null) {
-            }
+            StringMessage m;
+            m = (StringMessage) nextMessage();
+            /*while ((m = (StringMessage) nextMessage()) == null) {
+            }*/
 
-            System.out.println("m:" + m);
             if (m != null) {
-                getLogger().info("@PG>" + m.getSender() + " : " + m.toString() + "\n");
-
-            }
-            pause(5000);
+                if (m.getContent().equals("alert-on")) {
+                    onAlert = true;
+                    getLogger().info("power-grid off");
+                } else if (m.getContent().equals("alert-off")){
+                    onAlert = false;
+                    getLogger().info("power-grid on");
+                }                
+            }            
+            pause(1000);
         }
     }
 }

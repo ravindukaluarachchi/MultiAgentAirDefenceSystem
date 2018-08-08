@@ -12,5 +12,6 @@ package com.rav.util;
 public class Global {
     public static final String COMMUNITY = "community1";
     public static final String GROUP = "g1";
-    public static final String ROLE = "r1";
+    public static final String ROLE_DEFENCE = "DEFENCE";
+    public static final String ROLE_OFFENCE = "OFFENCE";
 }

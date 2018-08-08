@@ -11,6 +11,8 @@ import com.rav.util.Global;
 import com.rav.util.Position;
 import madkit.kernel.Agent;
 import madkit.kernel.Message;
+import madkit.message.ACLMessage;
+import madkit.message.ObjectMessage;
 import madkit.message.StringMessage;
 
 /**
@@ -20,17 +22,18 @@ import madkit.message.StringMessage;
 public class RadarAgent extends Agent {
 
     private Position position;
-    private int range = 300;
-    private int alertCount;
-
+    private int range = 100;
+    private int alertCount; 
+    private boolean onAlert = false;
+    
     public RadarAgent() {
-        position = new Position(500, 500);
+        position = new Position(300, 300);
     }
 
     @Override
     protected void activate() {
         createGroupIfAbsent(Global.COMMUNITY, Global.GROUP);
-        requestRole(Global.COMMUNITY, Global.GROUP, Global.ROLE);
+        requestRole(Global.COMMUNITY, Global.GROUP, Global.ROLE_DEFENCE);
     }
 
     @Override
@@ -39,14 +42,23 @@ public class RadarAgent extends Agent {
             alertCount = 0;
             for (Airborne object : Sky.getObjects()) {
                 if (object.getPosition().inRange(position, range)) {
+                    Message m = new ObjectMessage(object.getPosition());
+                    broadcastMessage(Global.COMMUNITY, Global.GROUP, Global.ROLE_OFFENCE, m); 
                     alertCount++;
                 }
             }
             if (alertCount > 0) {
+                onAlert = true;
                 Message m = new StringMessage("alert-on");
-                broadcastMessage(Global.COMMUNITY, Global.GROUP, Global.ROLE, m);                
+                broadcastMessage(Global.COMMUNITY, Global.GROUP, Global.ROLE_DEFENCE, m);                
+                pause(1000);                                
+            }else if(onAlert){
+                onAlert = false;
+                Message m = new StringMessage("alert-off");
+                broadcastMessage(Global.COMMUNITY, Global.GROUP, Global.ROLE_DEFENCE, m);                
                 pause(1000);                                
             }
+            
         }
     }
 

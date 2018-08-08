@@ -15,11 +15,11 @@ import madkit.message.StringMessage;
  * @author ravindu kaluarachchi
  */
 public class SirenAgent extends Agent {
-
+    private boolean onAlert = false;
     @Override
     protected void activate() {
         createGroupIfAbsent(Global.COMMUNITY, Global.GROUP);
-        requestRole(Global.COMMUNITY, Global.GROUP, Global.ROLE);
+        requestRole(Global.COMMUNITY, Global.GROUP, Global.ROLE_DEFENCE);
     }
 
     @Override
@@ -27,16 +27,22 @@ public class SirenAgent extends Agent {
 
         //waitNextMessage();
         while (true) {
-            Message m;
-            while ((m = nextMessage()) == null) {
-            }
+            StringMessage m;
+            m = (StringMessage) nextMessage();
+            /*while ((m = (StringMessage) nextMessage()) == null) {
+            }*/
 
-            System.out.println("m:" + m);
             if (m != null) {
-                getLogger().info("@S>" + m.getSender() + " > " + m.toString() + "\n");
-
+                if (m.getContent().equals("alert-on")) {
+                    onAlert = true;
+                } else if (m.getContent().equals("alert-off")){
+                    onAlert = false;
+                }                
             }
-            pause(5000);
+            if (onAlert) {
+                getLogger().info("siren on %%%%%%%%%%%");
+            }
+            pause(1000);
         }
     }
 }

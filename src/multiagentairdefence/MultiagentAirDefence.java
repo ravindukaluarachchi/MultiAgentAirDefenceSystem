@@ -34,7 +34,8 @@ public class MultiagentAirDefence {
         args = new String[]{"--launchAgents",
               RadarAgent.class.getName() + ",false,1;"
             + SirenAgent.class.getName() + ",false,1;"
-            +PowerGridAgent.class.getName() + ",false,1;"};
+            +PowerGridAgent.class.getName() + ",false,1;"
+            +AntiAircraftAgent.class.getName() + ",false,1;"};
         Madkit.main(args);
     }
 
