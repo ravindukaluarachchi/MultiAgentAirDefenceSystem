@@ -20,6 +20,14 @@ public class SirenAgent extends Agent {
 
     private boolean onAlert = false;
 
+    public boolean isOnAlert() {
+        return onAlert;
+    }
+
+    public void setOnAlert(boolean onAlert) {
+        this.onAlert = onAlert;
+    }
+
     @Override
     protected void activate() {
         position = new Position(100, 100);

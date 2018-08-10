@@ -14,17 +14,16 @@ public class Global {
     public static final String GROUP = "g1";
     public static final String ROLE_DEFENCE = "DEFENCE";
     public static final String ROLE_OFFENCE = "OFFENCE";
-    public static int missileId = 1;
-    public static  int antiAircraftStartX = 0;
-    public static  int antiAircraftStartY = 500;
-    public static final int ANTI_AIRCRAFT_DIST_X = 100;
+    public static int missileId = -1;
+    public static  int antiAircraftIndex= 0;
+    public static final int[] xs = {100,500,300};
+    public static final int[] ys = {600,500,700};
     
-    public static int antiAircraftStartX(){
-        antiAircraftStartX += ANTI_AIRCRAFT_DIST_X;
-        return antiAircraftStartX;
+    public static int antiAircraftStartX(){        
+        return xs[antiAircraftIndex];
     }
     
     public static int antiAircraftStartY(){        
-        return antiAircraftStartY;
+        return ys[antiAircraftIndex++];
     }
 }

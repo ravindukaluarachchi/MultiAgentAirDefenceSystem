@@ -21,12 +21,28 @@ import multiagentairdefence.MultiagentAirDefence;
  */
 public class RadarAgent extends Agent {
     
-    private int range = 100;
+    private int range = 200;
     private int alertCount; 
     private boolean onAlert = false;
     
     public RadarAgent() {
         
+    }
+
+    public int getRange() {
+        return range;
+    }
+
+    public void setRange(int range) {
+        this.range = range;
+    }
+
+    public boolean isOnAlert() {
+        return onAlert;
+    }
+
+    public void setOnAlert(boolean onAlert) {
+        this.onAlert = onAlert;
     }
 
     @Override

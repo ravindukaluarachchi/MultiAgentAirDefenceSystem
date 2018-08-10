@@ -45,7 +45,7 @@ public class AntiAircraftAgent extends Agent {
                 new Missile(new Position(position.getX(),position.getY()), target).fire();
             }
             
-            pause(1000);
+            pause(500);
         }
     }
 }

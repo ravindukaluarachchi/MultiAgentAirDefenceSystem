@@ -19,7 +19,7 @@ import multiagentairdefence.MultiagentAirDefence;
 public class Missile implements Positioned{
     private Position position;
     private Position destination;
-    private int speed = 1500;
+    private int speed = 50;
     private int id;
 
     public Missile() {
