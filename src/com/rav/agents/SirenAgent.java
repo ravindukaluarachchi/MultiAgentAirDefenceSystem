@@ -5,19 +5,25 @@
  */
 package com.rav.agents;
 
+import com.rav.environment.Positioned;
 import com.rav.util.Global;
-import madkit.kernel.Agent;
+import com.rav.util.Position;
 import madkit.kernel.Message;
 import madkit.message.StringMessage;
+import multiagentairdefence.MultiagentAirDefence;
 
 /**
  *
  * @author ravindu kaluarachchi
  */
 public class SirenAgent extends Agent {
+
     private boolean onAlert = false;
+
     @Override
     protected void activate() {
+        position = new Position(100, 100);
+        MultiagentAirDefence.uiObjects.add(this);
         createGroupIfAbsent(Global.COMMUNITY, Global.GROUP);
         requestRole(Global.COMMUNITY, Global.GROUP, Global.ROLE_DEFENCE);
     }
@@ -35,9 +41,9 @@ public class SirenAgent extends Agent {
             if (m != null) {
                 if (m.getContent().equals("alert-on")) {
                     onAlert = true;
-                } else if (m.getContent().equals("alert-off")){
+                } else if (m.getContent().equals("alert-off")) {
                     onAlert = false;
-                }                
+                }
             }
             if (onAlert) {
                 getLogger().info("siren on %%%%%%%%%%%");
@@ -45,4 +51,5 @@ public class SirenAgent extends Agent {
             pause(1000);
         }
     }
+
 }

@@ -5,33 +5,34 @@
  */
 package com.rav.agents;
 
-import com.rav.environment.Airborne;
 import com.rav.environment.Sky;
 import com.rav.util.Global;
 import com.rav.util.Position;
-import madkit.kernel.Agent;
 import madkit.kernel.Message;
 import madkit.message.ACLMessage;
 import madkit.message.ObjectMessage;
 import madkit.message.StringMessage;
+import com.rav.environment.Positioned;
+import multiagentairdefence.MultiagentAirDefence;
 
 /**
  *
  * @author ravindu kaluarachchi
  */
 public class RadarAgent extends Agent {
-
-    private Position position;
+    
     private int range = 100;
     private int alertCount; 
     private boolean onAlert = false;
     
     public RadarAgent() {
-        position = new Position(300, 300);
+        
     }
 
     @Override
     protected void activate() {
+        position = new Position(300, 300);
+        MultiagentAirDefence.uiObjects.add(this);
         createGroupIfAbsent(Global.COMMUNITY, Global.GROUP);
         requestRole(Global.COMMUNITY, Global.GROUP, Global.ROLE_DEFENCE);
     }
@@ -40,9 +41,9 @@ public class RadarAgent extends Agent {
     protected void live() {
         while (true) {
             alertCount = 0;
-            for (Airborne object : Sky.getObjects()) {
+            for (Positioned object : Sky.getObjects()) {
                 if (object.getPosition().inRange(position, range)) {
-                    Message m = new ObjectMessage(object.getPosition());
+                    Message m = new ObjectMessage(new Position(object.getPosition().getX(),object.getPosition().getY()));
                     broadcastMessage(Global.COMMUNITY, Global.GROUP, Global.ROLE_OFFENCE, m); 
                     alertCount++;
                 }

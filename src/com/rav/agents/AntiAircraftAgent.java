@@ -7,9 +7,9 @@ package com.rav.agents;
 
 import com.rav.util.Global;
 import com.rav.util.Position;
-import madkit.kernel.Agent;
 import madkit.message.ObjectMessage;
 import madkit.message.StringMessage;
+import multiagentairdefence.MultiagentAirDefence;
 
 /**
  *
@@ -18,10 +18,12 @@ import madkit.message.StringMessage;
 public class AntiAircraftAgent extends Agent {
 
     private boolean onAlert = false;
-    private Position position = new Position(400, 300);
+    
 
     @Override
     protected void activate() {
+        position = new Position(Global.antiAircraftStartX(), Global.antiAircraftStartY());
+        MultiagentAirDefence.uiObjects.add(this);
         createGroupIfAbsent(Global.COMMUNITY, Global.GROUP);
         requestRole(Global.COMMUNITY, Global.GROUP, Global.ROLE_OFFENCE);
        // System.out.println("AA active-------------------------------");
@@ -40,7 +42,7 @@ public class AntiAircraftAgent extends Agent {
 
             if (m != null) {
                 Position target = (Position)m.getContent();
-                new Missile(position, target).fire();
+                new Missile(new Position(position.getX(),position.getY()), target).fire();
             }
             
             pause(1000);

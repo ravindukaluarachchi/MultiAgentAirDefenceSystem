@@ -14,13 +14,13 @@ import java.util.List;
  * @author ravindu kaluarachchi
  */
 public class Sky {
-    private static List<Airborne> objects = new ArrayList<>();
+    private static List<Positioned> objects = new ArrayList<>();
 
-    public static List<Airborne> getObjects() {
+    public static List<Positioned> getObjects() {
         return objects;
     }
 
-    public static void setObjects(List<Airborne> objects) {
+    public static void setObjects(List<Positioned> objects) {
         Sky.objects = objects;
     }
     

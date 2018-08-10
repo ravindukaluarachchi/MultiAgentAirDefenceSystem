@@ -5,16 +5,16 @@
  */
 package com.rav.agents;
 
-import com.rav.environment.Airborne;
 import com.rav.util.Position;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import com.rav.environment.Positioned;
 
 /**
  *
  * @author ravindu kaluarachchi
  */
-public class Aircraft implements Airborne{
+public class Aircraft implements Positioned{
 
     private Position position;
     private Position destination;
