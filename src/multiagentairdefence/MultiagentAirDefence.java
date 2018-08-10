@@ -27,7 +27,9 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
@@ -63,13 +65,7 @@ public class MultiagentAirDefence extends Application {
     }
 
     static void runMAS() {
-        Aircraft a = new Aircraft();
-        a.setPosition(new Position(600, 0));
-        a.setDestination(new Position(0, 600));
-        a.setSpeed(500);
-        Sky.getObjects().add(a);
-        uiObjects.add(a);
-        a.fly();
+
         System.out.println("put a on sky");
         sargs = new String[]{"--launchAgents",
             RadarAgent.class.getName() + ",false,1;"
@@ -91,8 +87,21 @@ public class MultiagentAirDefence extends Application {
 
         gc = canvas.getGraphicsContext2D();
 
-        StackPane root = new StackPane();
+        Pane root = new Pane();
         root.getChildren().add(canvas);
+        Button b = new Button("Send Plane");
+        b.setLayoutX(700);
+        b.setLayoutY(0);
+        b.setOnAction(e -> {
+            Aircraft a = new Aircraft();
+            a.setPosition(new Position(600, 0));
+            a.setDestination(new Position(0, 600));
+            a.setSpeed(200);
+            Sky.getObjects().add(a);
+            uiObjects.add(a);
+            a.fly();
+        });
+        root.getChildren().add(b);
 
         Scene scene = new Scene(root);
 
@@ -102,7 +111,6 @@ public class MultiagentAirDefence extends Application {
         drawUI();
         runMAS();
     }
- 
 
     static int y = 0;
 
@@ -138,16 +146,16 @@ public class MultiagentAirDefence extends Application {
                     y = 0;
                     uiObjects.forEach(o -> {
                       //  y += 20;
-                       // gc.strokeText(o.getClass().getName() + " : " + 0 + o.getPosition().toString(), 0, y);
+                        // gc.strokeText(o.getClass().getName() + " : " + 0 + o.getPosition().toString(), 0, y);
                         if (o instanceof Aircraft) {
                             gc.drawImage(imgPlane, o.getPosition().getX(), o.getPosition().getY(), 50, 60);
                         } else if (o instanceof AntiAircraftAgent) {
                             gc.drawImage(imgTank, o.getPosition().getX(), o.getPosition().getY(), 50, 60);
                         } else if (o instanceof Missile) {
                             gc.drawImage(imgMissile, o.getPosition().getX(), o.getPosition().getY(), 20, 20);
-                        }  else if (o instanceof SirenAgent) {
-                            if (((SirenAgent)o).isOnAlert()) {
-                                gc.drawImage(imgSiren, 700,100,100,100);                                
+                        } else if (o instanceof SirenAgent) {
+                            if (((SirenAgent) o).isOnAlert()) {
+                                gc.drawImage(imgSiren, 120, 100, 100, 100);
                             }
                         } else if (o instanceof RadarAgent) {
                             RadarAgent r = (RadarAgent) o;
